@@ -18,6 +18,12 @@ Easily add repositories from launchpad for Debian systems.
     chmod +x ./add-apt-repository
   ```
   
+  4. (optional) Use it as a global command
+  
+  ```
+    sudo mv add-apt-repository /usr/bin
+  ```
+  
 ## Usage
 
   ```
@@ -26,5 +32,4 @@ Easily add repositories from launchpad for Debian systems.
   The script will automaticly take the package for xenial. You can change this:
   ```
     sudo ./add-apt-repository ppa:user/package zesty
-  ```
-  
+  ```  
