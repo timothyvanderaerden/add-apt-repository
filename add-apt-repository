@@ -6,6 +6,12 @@ if [ "$(whoami)" != "root" ]; then
 	exit 1
 fi
 
+#check input
+if [ -z ${1+x} ]; then 
+	echo "No ppa provided!"
+	exit 1
+fi
+
 #var
 LAUNCHPAD=http://ppa.launchpad.net/
 INPUT=$1
