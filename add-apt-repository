@@ -33,9 +33,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $KEY &> /dev/null
 rm $TEMP_KEY
 
 #success message
-echo $KEY
 if ! [ -z $KEY ]; then
-    echo "Key added to your system"
-    apt-key export $KEY
+    echo "Key $KEY added to your system"
 fi
 echo "$LAUNCHPAD$PPA added to your system"
