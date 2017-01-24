@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#check if sudo
+if [ "$(whoami)" != "root" ]; then
+	echo "You must be root!"
+	exit 1
+fi
+
+#var
+LAUNCHPAD=http://ppa.launchpad.net/
+INPUT=$1
+if [ -z ${2+x} ]; then VERSION=xenial; else VERSION=$2; fi
+PPA=$(echo $INPUT | cut -d ':' -f 2)
+SOFTWARE=$(echo $PPA | cut -d '/' -f 2)
+URL="$LAUNCHPAD$PPA/ubuntu $VERSION main"
+TEMP_KEY=/tmp/add_apt_key
+
+#create source list file
+touch /etc/apt/sources.list.d/$SOFTWARE.list
+echo "deb $URL" > /etc/apt/sources.list.d/$SOFTWARE.list
+echo "deb-src $URL" >> /etc/apt/sources.list.d/$SOFTWARE.list
+
+#add key
+apt update >> /dev/null 2> $TEMP_KEY
+KEY=$(cat $TEMP_KEY | cut -d ':' -f 6 | cut -d ' ' -f 3)
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $KEY &> /dev/null
+rm $TEMP_KEY
+
+#success message
+echo $KEY
+if ! [ -z $KEY ]; then
+    echo "Key added to your system"
+    apt-key export $KEY
+fi
+echo "$LAUNCHPAD$PPA added to your system"
